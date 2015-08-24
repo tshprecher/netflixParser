@@ -12,14 +12,19 @@ def main():
     password = config.get('netflix_parser', 'password')
 
     n_conn = n_connection.NetflixConnection(email, password)
-    n_conn.login()
-    viewing_data = n_conn.get_viewing_activity()
+    res = n_conn.login()
+    if res == False:
+        exit(1)
 
-    n_data = n_parser.parseData(viewing_data)
-    print n_data.text_tables()
-    print n_data.unusual_days()
-    with open('data.pickle', 'w') as f:
-        pickle.dump(n_data, f)
+#    viewing_data = n_conn.get_viewing_activity()
+    search_data = n_conn.search_film("titanic")
+    print search_data
+
+#    n_data = n_parser.parseData(viewing_data))
+#    print n_data.text_tables()
+#    print n_data.unusual_days()
+#    with open('data.pickle', 'w') as f:
+#        pickle.dump(n_data, f)
 
 def main_cached():
     with open('data.pickle', 'r') as f:
